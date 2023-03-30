@@ -35,3 +35,18 @@ def delete_note():
             db.session.commit()
 
     return jsonify({})
+
+
+from flask import Flask, render_template
+app = Flask(__name__)
+
+@views.route('/buy', methods=['GET', 'POST'])
+@login_required
+def buy():
+        return render_template('buy.html')
+
+
+@views.route('/sell', methods=['GET', 'POST'])
+@login_required
+def sell():
+        return render_template('sell.html')

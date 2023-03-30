@@ -64,3 +64,11 @@ def sign_up():
             return redirect(url_for('views.home'))
 
     return render_template("sign_up.html", user=current_user)
+
+
+from flask import Flask, render_template
+app = Flask(__name__)
+
+@app.route('/')
+def buy_and_sell():
+        return render_template('buy_and_sell.html')

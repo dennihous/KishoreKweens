@@ -1,0 +1,82 @@
+<!-- 
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Trading Platform</title>
+</head>
+<body>
+	<h1>Trading Platform</h1>
+	<h2>Buy</h2>
+	<form>
+		<label for="ticker">Ticker:</label>
+		<input type="text" id="ticker" name="ticker" required><br><br>
+		<label for="quantity">Quantity:</label>
+		<input type="number" id="quantity" name="quantity" min="1" required><br><br>
+		<label for="price">Price:</label>
+		<input type="number" id="price" name="price" step="0.01" required><br><br>
+		<input type="submit" value="Buy">
+	</form>
+	<h2>Sell</h2>
+	<form>
+		<label for="ticker">Ticker:</label>
+		<input type="text" id="ticker" name="ticker" required><br><br>
+		<label for="quantity">Quantity:</label>
+		<input type="number" id="quantity" name="quantity" min="1" required><br><br>
+		<label for="price">Price:</label>
+		<input type="number" id="price" name="price" step="0.01" required><br><br>
+		<input type="submit" value="Sell">
+	</form>
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Trading Platform</title>
+</head>
+<body>
+	<h1>Trading Platform - Buy</h1>
+	<form>
+		<label for="book">Book:</label>
+		<select id="book" name="book">
+			<option value="Book 1">Book 1</option>
+			<option value="Book 2">Book 2</option>
+			<option value="Book 3">Book 3</option>
+			<option value="Book 4">Book 4</option>
+		</select><br><br>
+		<label for="quantity">Quantity:</label>
+		<input type="number" id="quantity" name="quantity" min="1" required><br><br>
+		<label for="price">Price:</label>
+		<input type="number" id="price" name="price" step="0.01" required><br><br>
+		<input type="submit" value="Buy">
+	</form>
+</body>
+</html>
+-->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Buy Stocks</title>
+</head>
+<body>
+	<h1>Buy Books</h1>
+	<form method="POST">
+		<label for="book">Select a Stock:</label>
+		<select id="book" name="book">
+			<?php foreach ($books as $book => $quantity): ?>
+				<option value="<?php echo $book ?>"><?php echo $book ?></option>
+			<?php endforeach ?>
+		</select><br><br>
+		<label for="quantity">Quantity:</label>
+		<input type="number" id="quantity" name="quantity" min="1" required><br><br>
+		<label for="price">Price:</label>
+		<input type="number" id="price" name="price" step="0.01" required><br><br>
+		<input type="submit" value="Buy">
+	</form>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sell Stock</title>
+</head>
+<body>
+	<h1>Sell Stock</h1>
+	<form method="POST">
+		<label for="book">Select a book:</label>
+		<select id="book" name="book">
+			<?php foreach ($books as $book => $quantity): ?>
+				<option value="<?php echo $book ?>"><?php echo $book ?></option>
+			<?php endforeach ?>
+		</select><br><br>
+		<label for="quantity">Quantity:</label>
+		<input type="number" id="quantity" name="quantity" min="1" required><br><br>
+		<label for="price">Price:</label>
+		<input type="number" id="price" name="price" step="0.01" required><br><br>
+		<input type="submit" value="Sell">
+	</form>
+</body>
+</html>
