@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
+
+from website.Orderbook import Order
 from .models import Note
 from . import db
 import json
@@ -35,3 +37,22 @@ def delete_note():
             db.session.commit()
 
     return jsonify({})
+
+'''
+@views.route('/buy_order', methods=['GET', 'POST'])
+@login_required
+def buy_order():
+    if request.method == 'POST': 
+        order_id = request.form.get('order_id')
+    '''    
+'''
+    order = json.loads(request.data)
+    order_id = order['order_id']
+    order = Order.query.get(order_id)
+    if order:
+        if order.user_id == current_user.id:
+            db.session.delete(order)
+            db.session.commit()
+
+    return render_template("buy_order.html", user=current_user)
+    '''
