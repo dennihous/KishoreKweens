@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
+import yfinance
 
 from website.Orderbook import Order
 from .models import Note
@@ -25,6 +26,20 @@ def home():
 
     return render_template("home.html", user=current_user)
 
+@views.route('/fetch-stock-prices')
+def fetch_stock_prices():
+    symbols = ['AAPL', 'MSFT', 'AMZN']
+    stock_prices = []
+
+    for symbol in symbols:
+        stock = yfinance.Ticker(symbol)
+        todays_data = stock.history(period='1d')
+        price = todays_data['Close'][0]
+        stock_prices.append(price)
+
+
+    return jsonify(stock_prices)
+
 
 @views.route('/delete-note', methods=['POST'])
 def delete_note():  
@@ -37,6 +52,23 @@ def delete_note():
             db.session.commit()
 
     return jsonify({})
+
+@views.route('/add_order', methods=['GET', 'POST'])
+@login_required
+def add_order():
+    if request.method == 'POST': 
+        order_id = request.form.get('order_id')
+        instrument = request.form.get('instrument')
+        side = request.form.get('side')
+        price = request.form.get('price')
+        quantity = request.form.get('quantity')
+        status = request.form.get('status')
+        order = Order(order_id=order_id, instrument=instrument, side=side, price=price, quantity=quantity, status=status)
+        db.session.add(order)
+        db.session.commit()
+        flash('Order added!', category='success')
+
+    return render_template("add_orders.html", user=current_user)
 
 '''
 @views.route('/buy_order', methods=['GET', 'POST'])
