@@ -1,0 +1,38 @@
+'''
+@auth.route('/buy_order', methods=['GET'])
+@login_required
+def view_buy_orders():
+    user_id = current_user.id
+    buy_orders = Buy.query.filter_by(user_id=user_id).all()
+
+    return render_template("buy_order.html", user=current_user, buy_orders=buy_orders)
+
+
+
+
+@auth.route('/buy_order', methods=['GET', 'POST'])
+@login_required
+def buy_order():
+    if request.method == 'POST':
+        user_id = current_user.id
+        stock_name = request.form.get('stock_name')
+        price = request.form.get('price')
+        quantity = request.form.get('quantity')
+
+        stock = Stocks.query.filter_by(stock_name=stock_name).first()
+        if stock:
+            # Create a new BuyOrder object with the user_id, stock_id, price, and quantity
+            buy_order = Buy(user_id=user_id, stock_name=stock.stock_name, price=price, quantity=quantity)
+            db.session.add(buy_order)
+            db.session.commit()
+            flash('Buy order successfully submitted!', category='success')
+        else:
+            flash('Invalid stock name. Please try again.', category='error')
+
+    user_id = current_user.id
+    # Query the Buy table for all buy orders made by the current user
+    buy_orders = Buy.query.filter_by(user_id=user_id).all()
+
+    # Pass the buy orders to the template for rendering
+    return render_template("buy_order.html", user=current_user, buy_orders=buy_orders)
+'''
