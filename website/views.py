@@ -4,6 +4,7 @@ import yfinance
 
 from website.Orderbook import Order
 from .models import Note
+from .models import buy_order
 from . import db
 import json
 
@@ -58,19 +59,38 @@ def delete_note():
 def add_order():
     if request.method == 'POST': 
         order_id = request.form.get('order_id')
-        instrument = request.form.get('instrument')
-        side = request.form.get('side')
-        price = request.form.get('price')
-        quantity = request.form.get('quantity')
-        status = request.form.get('status')
-        order = Order(order_id=order_id, instrument=instrument, side=side, price=price, quantity=quantity, status=status)
+
+        stock_name = request.form.get('stock_name')
+        stock_price = request.form.get('price')
+        stock_quantity = request.form.get('quantity')
+        order = buy_order(order_id=order_id, user_id = current_user.id, stock_name=stock_name, stock_price=stock_price, stock_quantity=stock_quantity)
         db.session.add(order)
         db.session.commit()
         flash('Order added!', category='success')
 
     return render_template("add_orders.html", user=current_user)
 
-'''
+@views.route('/cancel_order')
+@login_required
+def cancel_order():
+    order = buy_order.get_or_404(order_id)
+    db.session.delete(order)
+    db.session.commit()
+
+'''@views.route('/cancel_order')
+@login_required
+def cancel_order():
+    if request.method == 'POST': 
+        order_id = request.form.get('order_id')
+        order = buy_order.query.get(order_id)
+        if order:
+            if order.user_id == current_user.id:
+                db.session.delete(order)
+                db.session.commit()
+
+    return render_template("add_order.html", user=current_user)
+
+
 @views.route('/buy_order', methods=['GET', 'POST'])
 @login_required
 def buy_order():

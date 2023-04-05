@@ -4,8 +4,12 @@ from Orderbook import Orderbook
 
 class SORT:
 
+    def __init__(self, orderbook):
+        self.orderbook = Orderbook()
+        self.orders = self.orderbook.orders
+
     def execute_trade(self):
-        if not self.order['buy', 'sell']:
+        if not orders['buy', 'sell']:
             return
         
         best_bid = max(self.orders['buy'], key=lambda order: order['price'])
