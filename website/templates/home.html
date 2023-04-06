@@ -1,0 +1,68 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%}
+<h1 align="center">Notes</h1>
+<ul class="list-group list-group-flush" id="notes">
+      {% for note in user.notes %}
+  <li class="list-group-item">
+          {{ note.data }}
+    <button type="button" class="close" onClick="deleteNote( note.id )">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </li>
+      {% endfor %}
+</ul>
+<form method="POST">
+  <textarea name="note" id="note" class="form-control"></textarea>
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Add Note</button>
+  </div>
+</form>
+<div style="width: 75%; margin: 0 auto">
+  <canvas id="stockChart"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  function deleteNote(noteId) {
+    // Perform the necessary actions to delete the note with the given noteId
+    console.log("Delete note with ID:", noteId);
+  } // Function to fetch stock prices and update the chart
+
+  async function updateStockPrices() {
+    const response = await fetch("/fetch-stock-prices");
+    const stockPrices = await response.json(); // Update the chart with new data
+
+    stockChart.data.datasets.forEach((dataset, index) => {
+      dataset.data = stockPrices[index].prices;
+    });
+    stockChart.update();
+  } // Initialize the stock chart
+
+  const ctx = document.getElementById("stockChart").getContext("2d");
+  const stockChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: ["AAPL", "MSFT", "AMZN"],
+      datasets: [
+        {
+          label: "Stock Prices",
+          data: [],
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  }); // Update stock prices every minute (60000 ms)
+
+  setInterval(updateStockPrices, 60000); // Fetch stock prices initially
+  updateStockPrices();
+</script>
+{% endblock %}
