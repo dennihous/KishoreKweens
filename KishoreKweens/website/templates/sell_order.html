@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Sell Order{% endblock %}
+{% block content %}
+  <form method="POST">
+    <h3 align="center">Sell Order</h3>
+    <div class="form-group">
+      <label for="stock_name">Stock Name</label>
+      <input type="text" class="form-control" id="stock_name" name="stock_name" placeholder="Enter stock name">
+    </div>
+    <div class="form-group">
+      <label for="price">Price</label>
+      <input type="number" class="form-control" id="price" name="price" placeholder="Enter price">
+    </div>
+    <div class="form-group">
+      <label for="quantity">Quantity</label>
+      <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Enter quantity">
+    </div>
+    <br/>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+  <hr>
+
+  <h3>My Sell Orders</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Stock Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sell_order in sell_orders %}
+      <tr>
+        <td>{{ sell_order.stock_name }}</td>
+        <td>{{ sell_order.price }}</td>
+        <td>{{ sell_order.quantity }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
