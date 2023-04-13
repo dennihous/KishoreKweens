@@ -1,51 +1,76 @@
 
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-  %}
-  <h1 align="center">Notes</h1>
-  <ul class="list-group list-group-flush" id="notes">
-    {% for note in user.notes %}
-    <li class="list-group-item">
-      {{ note.data }}
-      <button type="button" class="close" onClick="deleteNote({{ note.id }})">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </li>
-    {% endfor %}
-  </ul>
-  <form method="POST">
-    <textarea name="note" id="note" class="form-control"></textarea>
-    <br />
-    <div align="center">
-      <button type="submit" class="btn btn-primary">Add Note</button>
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        <h1>Welcome to My Trading Page</h1>
+        <p class="lead mt-3">Trade stocks like a pro with our platform</p>
+        <a href="{{ url_for('auth.buy_order') }}" class="btn btn-primary mt-3">Buy Stocks</a>
+        <a href="{{ url_for('auth.sell_order') }}" class="btn btn-secondary mt-3">Sell Stocks</a>
+      </div>
     </div>
-  </form>
+  </div>
 
+  <!-- TradingView Widget BEGIN -->
+  <div class="tradingview-widget-container mt-5">
+    <div id="tradingview_52e8c" style="width: 100%; height: 500px;"></div>
+    <div class="tradingview-widget__legend mt-3">
+      <span class="blue-text">AAPL stock chart</span>
+    </div>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script type="text/javascript">
+      new TradingView.widget(
+      {
+        "autosize": true,
+        "symbol": "NASDAQ:AAPL",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "hide_side_toolbar": false,
+        "allow_symbol_change": true,
+        "container_id": "tradingview_52e8c"
+      });
+    </script>
+  </div>
+  <!-- TradingView Widget END -->
+{% endblock %}
 
-<!-- TradingView Widget BEGIN -->
-<div class="tradingview-widget-container">
-  <div id="tradingview_52e8c" style="width: 100%; height: 100vh;"></div>
-  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-AAPL/" rel="noopener" target="_blank"><span class="blue-text">AAPL stock chart</span></a> by TradingView</div>
-  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-  <script type="text/javascript">
-  new TradingView.widget(
-  {
-  "autosize": true,
-  "symbol": "NASDAQ:AAPL",
-  "interval": "D",
-  "timezone": "Etc/UTC",
-  "theme": "dark",
-  "style": "1",
-  "locale": "en",
-  "toolbar_bg": "#f1f3f6",
-  "enable_publishing": false,
-  "hide_side_toolbar": false,
-  "allow_symbol_change": true,
-  "container_id": "tradingview_52e8c"
-}
-  );
-  </script>
-</div>
-<!-- TradingView Widget END -->
-
-
-  {% endblock %}
+{% block styles %}
+  <style>
+    body {
+      background-color: #030303;
+    }
+    h1 {
+      font-size: 3rem;
+      color: #333;
+    }
+    p {
+      font-size: 1.5rem;
+      color: #555;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+    .btn-primary:hover {
+      background-color: #0069d9;
+      border-color: #0062cc;
+    }
+    .btn-secondary {
+      background-color: #6c757d;
+      border-color: #6c757d;
+    }
+    .btn-secondary:hover {
+      background-color: #5a6268;
+      border-color: #545b62;
+    }
+  </style>
+{% endblock %}
